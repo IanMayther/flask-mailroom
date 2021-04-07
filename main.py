@@ -21,21 +21,40 @@ def all():
     donations = Donation.select()
     return render_template('donations.jinja2', donations=donations)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    '''Manages user login'''
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     '''Manages donor login'''
+#     if request.method == 'POST':
+#         donor = Donor.select().where(Donor.name == request.form['name']).get()
+
+#         if donor and pbkdf2_sha256.verify(request.form['password'], donor.password):
+#             session['username'] = request.form['name']
+#             return redirect(url_for('all_tasks'))
+
+#         return render_template('login.jinja2', error="Incorrect username or password.")
+
+#     else:
+#         return render_template('login.jinja2')
+
+@app.route('/donate', methods=['GET', 'POST'])
+def donate():
+    '''Creates donations from a entered user'''
+    # if 'username' not in session:
+    #     return redirect(url_for('login'))
+
     if request.method == 'POST':
-        user = Donor.select().where(Donor.name == request.form['name']).get()
+        donor = Donor.select().where(Donor.name == request.form['name']).get()
+        dontation = Donation(donor= request.form['name'], value= request.form['value'])
+        print(donor.name, dontation.value)
+        dontation.execute()
 
-        if user and pbkdf2_sha256.verify(request.form['password'], user.password):
-            session['username'] = request.form['name']
-            return redirect(url_for('all_tasks'))
+    return render_template('create.jinja2')
 
-        return render_template('login.jinja2', error="Incorrect username or password.")
+    #     Task.update(performed=datetime.now(), performed_by=user)\
+    #         .where(Task.id == request.form['task_id'])\
+    #         .execute()
 
-    else:
-        return render_template('login.jinja2')
-    
+    # return render_template('incomplete.jinja2', tasks=Task.select().where(Task.performed.is_null()))    
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 6738))
