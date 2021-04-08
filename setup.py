@@ -13,15 +13,15 @@ db.drop_tables([Donor, Donation])
 db.create_tables([Donor, Donation])
 
 alice = Donor(name="Alice",
-             password=pbkdf2_sha256.hash("AliceAliceAlice"))
+             password=pbkdf2_sha256.hash("1111"))
 alice.save()
 
 bob = Donor(name="Bob",
-            password=pbkdf2_sha256.hash("BobBobBob"))
+            password=pbkdf2_sha256.hash("2222"))
 bob.save()
 
 charlie = Donor(name="Charlie",
-                password=pbkdf2_sha256.hash("CharlieCharlieCharlie"))
+                password=pbkdf2_sha256.hash("3333"))
 charlie.save()
 
 donors = [alice, bob, charlie]
