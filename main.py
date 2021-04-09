@@ -43,7 +43,10 @@ def donate():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        donor = Donor.select().where(Donor.name == request.form['name']).get() 
+        try:
+            donor = Donor.select().where(Donor.name == request.form['name']).get()
+        except:
+            return render_template('create.jinja2', error="Invalid Donor")
         dontation = Donation(value= request.form['amount'], donor= donor.id)
         dontation.save()
         return redirect(url_for('all'))
@@ -53,4 +56,3 @@ def donate():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 6738))
     app.run(host='0.0.0.0', port=port)
-

@@ -4,8 +4,10 @@
 
 {% block content %}
 <form method="POST">
+    {% if error %}<span class="error">{{ error}}<br>{% endif %}
     <label for="name-input">Name:</label><input id="name-input" type="text" name="name"><br>
     <label for="amount-input">Amount:</label><input id="amount-input" type="amount" name="amount"><br>
     <input type="submit" value="Create Donation">
 </form>
+
 {% endblock content %}
